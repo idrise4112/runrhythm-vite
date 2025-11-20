@@ -81,7 +81,8 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <Router basename="/runrhythm-vite">
+      
       <ErrorBoundary>
         <MainNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 

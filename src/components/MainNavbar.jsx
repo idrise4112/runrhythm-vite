@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./MainNavbar.css"
+import logo from "../../public/logo192.png"
 
 export default function MainNavbar({ isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function MainNavbar({ isLoggedIn, setIsLoggedIn }) {
   return (
     <nav className="navbar">
       <div className="logo">
-        <img src="/logo192.png" alt="RunRhythm Logo" className="logo-img" />
+        <img src={logo} alt="RunRhythm Logo" className="logo-img" />
         <span className="logo-text">RunRhythm</span>
       </div>
 

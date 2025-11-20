@@ -32,7 +32,7 @@ export async function fetchPlaylists(query) {
 
     const response = await axios.get(`${BASE_URL}/search`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer BQDq0yuXdoxvGZYw394nckfmRg8OWHRyjtMw4hXntw6VkNcvXSIiD3q9TPMGu9BvFkOrfP9uDZ0AQKWCr2JxRPvto-2kzP4koXWVRLflrVhwBQUP0Lh1F1DM8h8Pcmc9-f5BSELpfrY`,
       },
       params: {
         q: query,
