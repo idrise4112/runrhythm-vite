@@ -1,0 +1,20 @@
+.register-page {
+  max-width: 400px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.register-page input {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+.register-page button {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
