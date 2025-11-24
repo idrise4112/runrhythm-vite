@@ -1,21 +1,30 @@
-export const registerUser = (username, password) => {
-  const users = JSON.parse(localStorage.getItem("runrhythmUser")) || {};
-  if (users[username]) return false;
-  users[username] = { password };
-  localStorage.setItem("users", JSON.stringify(users));
-  return true;
-};
+const SERVER = import.meta.env.VITE_BACKEND_URL;
 
-export const loginUser = (username, password) => {
-  console.log(13231231);
-  console.log(username, password);
-  const users = JSON.parse(localStorage.getItem("runrhythmUser")) || {};
-  console.log(users);
+export async function registerUser(username, password) {
+  const res = await fetch(`${SERVER}/users/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
+  return res.ok;
+}
 
-  // const usermatch= users.filter((user)=>user.username===username)
-  // if (usermatch.length===0) {
-  //   return false
-  // }
+export async function loginUser(username, password) {
+  const res = await fetch(`${SERVER}/users/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
+  if (!res.ok) return null;
+  const data = await res.json();
+  localStorage.setItem('token', data.token);
+  return data.token;
+}
 
-  return users?.password === password;
-};
+export function getToken() {
+  return localStorage.getItem('token');
+}
+
+export function logoutUser() {
+  localStorage.removeItem('token');
+}

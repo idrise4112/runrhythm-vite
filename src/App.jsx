@@ -11,12 +11,9 @@ import SpotifyCallback from "./spotify/SpotifyCallback";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-// ✅ Inject Spotify credentials from .env (for local dev only)
+// ✅ Only keep CLIENT_ID in frontend (CLIENT_SECRET must stay in backend)
 const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
-
-console.log("CLIENT_ID:", CLIENT_ID);
-console.log("CLIENT_SECRET:", CLIENT_SECRET); // ⚠️ Remove before deploying
+console.log("CLIENT_ID:", CLIENT_ID); // ⚠️ Remove before deploying
 
 function SpotifyPlayer() {
   useEffect(() => {
@@ -76,13 +73,13 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    // ✅ Use Spotify token instead of "authToken"
+    const token = localStorage.getItem("spotifyAccessToken");
     setIsLoggedIn(!!token);
   }, []);
 
   return (
     <Router basename="/runrhythm-vite">
-      
       <ErrorBoundary>
         <MainNavbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 
@@ -91,7 +88,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/signup" element={<RegisterPage />} />
           <Route
             path="/profile"
             element={
@@ -116,7 +112,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/callback" element={<SpotifyCallback />} />
+          <Route path="/callback" element={<SpotifyCallback setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="*" element={<div>404 - Page Not Found</div>} />
         </Routes>
       </ErrorBoundary>

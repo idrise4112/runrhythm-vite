@@ -1,33 +1,45 @@
+
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SpotifyCallback() {
+export default function Callback({ setIsLoggedIn }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Prevent double execution in React Strict Mode
-    if (window.__spotifyCallbackHandled) return;
-    window.__spotifyCallbackHandled = true;
+    const code = new URLSearchParams(window.location.search).get("code");
+    const codeVerifier = localStorage.getItem("code_verifier");
 
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
+    if (code && codeVerifier) {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/token`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, code_verifier: codeVerifier }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.access_token) {
+            localStorage.setItem("spotifyAccessToken", data.access_token);
 
-    const token = params.get("access_token");
-    const expiresIn = params.get("expires_in");
+            if (data.refresh_token) {
+              localStorage.setItem("spotifyRefreshToken", data.refresh_token);
+            }
 
-    if (token) {
-      localStorage.setItem("spotifyAccessToken", token);
+            localStorage.setItem(
+              "spotifyTokenExpiry",
+              Date.now() + (data.expires_in - 30) * 1000
+            );
 
-      if (expiresIn) {
-        const expiryTime = Date.now() + parseInt(expiresIn, 10) * 1000;
-        localStorage.setItem("spotifyTokenExpiry", expiryTime.toString());
-      }
-
-      navigate("/");
+            setIsLoggedIn(true);
+            navigate("/profile");
+          } else {
+            console.error("Token exchange failed:", data);
+          }
+        })
+        .catch((err) => console.error("Error exchanging token:", err));
     } else {
-      console.error("Spotify token not found in callback URL.");
+      console.error("Missing code or code_verifier");
     }
-  }, [navigate]);
+  }, [navigate, setIsLoggedIn]);
 
-  return <p>Logging in with Spotify...</p>;
+  return <p>Logging you in with Spotify...</p>;
 }
