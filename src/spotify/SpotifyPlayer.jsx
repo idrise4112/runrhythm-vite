@@ -2,11 +2,11 @@ import { useEffect } from "react";
 
 export default function SpotifyPlayer() {
   useEffect(() => {
-    // Prevent multiple loads (StrictMode)
+   
     if (window.spotifySDKLoaded) return;
     window.spotifySDKLoaded = true;
 
-    // Define callback BEFORE loading script
+    
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token = localStorage.getItem("spotifyAccessToken");
       if (!token || !window.Spotify) {
@@ -47,13 +47,13 @@ export default function SpotifyPlayer() {
       player.connect();
     };
 
-    // Load the script AFTER callback is defined
+   
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
     document.body.appendChild(script);
 
-    // ❗ Do NOT delete the callback here (breaks SDK)
+    
   }, []);
 
   return null;

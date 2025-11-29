@@ -1,0 +1,62 @@
+// src/utils/SignupForm.jsx
+import React, { useState } from "react";
+import { registerUser } from "./auth";
+import { useAuth } from "./AuthContext";
+
+export default function SignupForm() {
+  const { signup } = useAuth();
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+
+    try {
+      // First create user in backend
+      await registerUser(email, password, name);
+
+      // Then update frontend auth state via context
+      await signup(email, password, name);
+
+      // (Optional) redirect to login or dashboard
+      // navigate("/login");  // if you're using react-router
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <input
+        type="email"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        placeholder="Email"
+        required
+      />
+
+      <input
+        type="text"
+        value={name}
+        onChange={e => setName(e.target.value)}
+        placeholder="Name"
+        required
+      />
+
+      <input
+        type="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        placeholder="Password"
+        required
+      />
+
+      <button type="submit">Sign Up</button>
+    </form>
+  );
+}

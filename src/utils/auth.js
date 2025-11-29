@@ -1,30 +1,37 @@
 const SERVER = import.meta.env.VITE_BACKEND_URL;
+// console.log("SERVER =", SERVER);
 
-export async function registerUser(username, password) {
-  const res = await fetch(`${SERVER}/users/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password })
+export async function registerUser(email, password, name) {
+  const res = await fetch(`${SERVER}/api/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password, name }),
   });
-  return res.ok;
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Registration failed");
+  return data;
 }
 
-export async function loginUser(username, password) {
-  const res = await fetch(`${SERVER}/users/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password })
+export async function loginUser(email, password) {
+  const res = await fetch(`${SERVER}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
   });
-  if (!res.ok) return null;
+
   const data = await res.json();
-  localStorage.setItem('token', data.token);
-  return data.token;
+  if (!res.ok) throw new Error(data.error || "Login failed");
+
+  localStorage.setItem("token", data.token);
+  return data;
 }
 
 export function getToken() {
-  return localStorage.getItem('token');
+  return localStorage.getItem("token");
 }
 
 export function logoutUser() {
-  localStorage.removeItem('token');
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
 }

@@ -12,8 +12,8 @@ export function redirectToSpotifyLogin() {
     "playlist-read-collaborative",
   ].join(" ");
 
-  const STATE = crypto.randomUUID(); // Optional: helps prevent CSRF
-  const SHOW_DIALOG = true; // Optional: forces Spotify login prompt
+  const STATE = crypto.randomUUID(); 
+  const SHOW_DIALOG = true; 
 
   const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(
     REDIRECT_URI

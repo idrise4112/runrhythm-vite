@@ -1,10 +1,11 @@
 import { useState } from "react";
 import "./RegisterPage.css";
+import { registerUser } from "../utils/auth"; // adjust path to your auth.js
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
+    name: "",
     password: "",
   });
 
@@ -14,19 +15,23 @@ export default function RegisterPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-    if (!formData.username || !formData.email || !formData.password) {
+    if (!formData.email || !formData.password || !formData.name) {
       setMessage("All fields are required.");
       return;
     }
 
-    
-
-    localStorage.setItem("runrhythmUser", JSON.stringify(formData));
-    setMessage("Account created! You can now log in.");
+    try {
+      const data = await registerUser(formData.email, formData.password, formData.name);
+      setMessage("Account created! You can now log in.");
+      // Optionally store token/user in localStorage:
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+    } catch (err) {
+      setMessage(err.message);
+    }
   };
 
   return (
@@ -34,17 +39,17 @@ export default function RegisterPage() {
       <h2>Sign Up for RunRhythm</h2>
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-        <input
           type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={formData.name}
           onChange={handleChange}
         />
         <input

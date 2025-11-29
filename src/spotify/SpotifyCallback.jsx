@@ -1,45 +1,77 @@
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Callback({ setIsLoggedIn }) {
+export default function SpotifyCallback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const code = new URLSearchParams(window.location.search).get("code");
-    const codeVerifier = localStorage.getItem("code_verifier");
+    async function handleSpotifyAuth() {
+      const code = new URLSearchParams(window.location.search).get("code");
+      const codeVerifier = localStorage.getItem("code_verifier");
 
-    if (code && codeVerifier) {
-      fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/token`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, code_verifier: codeVerifier }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.access_token) {
-            localStorage.setItem("spotifyAccessToken", data.access_token);
+      if (!code) {
+        console.error("❌ No 'code' found in redirect URL");
+        navigate("/");
+        return;
+      }
 
-            if (data.refresh_token) {
-              localStorage.setItem("spotifyRefreshToken", data.refresh_token);
-            }
+      if (!codeVerifier) {
+        console.error("❌ No code_verifier found in localStorage");
+        navigate("/");
+        return;
+      }
 
-            localStorage.setItem(
-              "spotifyTokenExpiry",
-              Date.now() + (data.expires_in - 30) * 1000
-            );
-
-            setIsLoggedIn(true);
-            navigate("/profile");
-          } else {
-            console.error("Token exchange failed:", data);
+      try {
+        // ⭐ Exchange code → tokens
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/auth/token`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              code,
+              code_verifier: codeVerifier,
+            }),
           }
-        })
-        .catch((err) => console.error("Error exchanging token:", err));
-    } else {
-      console.error("Missing code or code_verifier");
-    }
-  }, [navigate, setIsLoggedIn]);
+        );
 
-  return <p>Logging you in with Spotify...</p>;
+        if (!response.ok) {
+          console.error("❌ Token exchange failed:", response.status);
+          return navigate("/");
+        }
+
+        const data = await response.json();
+        console.log("Spotify token response →", data);
+
+        if (!data.access_token) {
+          console.error("❌ No access_token in response");
+          return navigate("/");
+        }
+
+        // ⭐ Save tokens
+        localStorage.setItem("spotify_access_token", data.access_token);
+
+        if (data.refresh_token) {
+          localStorage.setItem("spotify_refresh_token", data.refresh_token);
+        }
+
+        // ⭐ Save expiry (with 30s buffer)
+        const expiresAt = Date.now() + (data.expires_in - 30) * 1000;
+        localStorage.setItem("spotify_token_expiry", expiresAt);
+
+        // Cleanup
+        localStorage.removeItem("code_verifier");
+
+        // ⭐ Redirect back home to load playlists
+        navigate("/");
+      } catch (err) {
+        console.error("❌ Error during Spotify auth:", err);
+        navigate("/");
+      }
+    }
+
+    handleSpotifyAuth();
+  }, [navigate]);
+
+  return <p>Connecting you to Spotify…</p>;
 }

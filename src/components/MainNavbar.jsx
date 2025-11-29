@@ -1,20 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./MainNavbar.css";
 import logo from "../assets/logo192.png";
+import { useAuth } from "../utils/AuthContext";
 
-export default function MainNavbar({ isLoggedIn, setIsLoggedIn }) {
+export default function MainNavbar() {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("spotifyAccessToken");
-    localStorage.removeItem("spotifyRefreshToken");
-    localStorage.removeItem("spotifyTokenExpiry");
-    setIsLoggedIn(false);
+    logout();
     navigate("/");
   };
 
   const handleSpotifyLogin = async () => {
-    // Generate PKCE code verifier & challenge
     const generateRandomString = (length) => {
       const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       const values = crypto.getRandomValues(new Uint8Array(length));
@@ -68,18 +66,24 @@ export default function MainNavbar({ isLoggedIn, setIsLoggedIn }) {
       <ul className="nav-links">
         <li><Link to="/">Home</Link></li>
 
-        {isLoggedIn ? (
+        {user ? (
           <>
             <li><Link to="/playlists">Playlists</Link></li>
             <li><Link to="/tracker">Tracker</Link></li>
             <li><Link to="/profile">Profile</Link></li>
-            <li><button onClick={handleLogout} className="spotify-btn">Log Out</button></li>
+            <li>
+              <button onClick={handleLogout} className="logout-btn">
+                Log Out
+              </button>
+            </li>
           </>
         ) : (
           <>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/register">Sign Up</Link></li> {/* ✅ consistent with App.jsx */}
             <li>
               <button onClick={handleSpotifyLogin} className="spotify-btn">
-                Login with Spotify
+                Connect to Spotify
               </button>
             </li>
           </>

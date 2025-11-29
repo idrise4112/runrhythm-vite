@@ -5,9 +5,14 @@ export function getStoredToken() {
   const expiry = parseInt(localStorage.getItem("spotifyTokenExpiry"), 10);
 
   if (!token || !expiry) return null;
-  if (Date.now() >= expiry) return null; // expired
+  if (Date.now() >= expiry) return null; 
 
   return token;
+}
+
+
+export function hasValidToken() {
+  return !!getStoredToken(); 
 }
 
 export async function getValidToken() {
@@ -24,8 +29,8 @@ export async function getValidToken() {
     const res = await fetch(`${SERVER}/auth/refresh`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refresh_token: refreshToken }), // ✅ send refresh token
-      credentials: "include", // only needed if backend sets cookies
+      body: JSON.stringify({ refresh_token: refreshToken }), 
+      credentials: "include", 
     });
 
     if (!res.ok) {
