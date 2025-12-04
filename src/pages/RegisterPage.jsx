@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./RegisterPage.css";
-import { registerUser } from "../utils/auth"; // adjust path to your auth.js
+import { registerUser } from "../utils/auth"; 
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -26,7 +26,7 @@ export default function RegisterPage() {
     try {
       const data = await registerUser(formData.email, formData.password, formData.name);
       setMessage("Account created! You can now log in.");
-      // Optionally store token/user in localStorage:
+      
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
     } catch (err) {

@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
 import PlaylistFilter from "../playlist/PlayListFilter";
 import PlaylistResults from "../playlist/PlayListResults";
-import { fetchPlaylists } from "../api/Spotify";
-import { generateCodeVerifier, generateCodeChallenge } from "../utils/PkceUtils";
+
+import { fetchSpotifyPlaylists } from "../api/api";
+
+
+import { redirectToSpotifyLogin } from "../utils/SpotifyAuth";
+
 import { useAuth } from "../utils/AuthContext";
 import "./Home.css";
 
 function Home() {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
 
   const [playlists, setPlaylists] = useState([]);
   const [filtered, setFiltered] = useState(false);
   const [loading, setLoading] = useState(true);
 
-
+  // ---------------------------------------------------------
+  // Load default playlists IF Spotify is connected
+  // ---------------------------------------------------------
   useEffect(() => {
     async function loadDefaultPlaylists() {
       const accessToken = localStorage.getItem("spotify_access_token");
@@ -24,8 +30,13 @@ function Home() {
         return;
       }
 
-      const results = await fetchPlaylists("running music");
-      setPlaylists(results);
+      try {
+        const data = await fetchSpotifyPlaylists(accessToken);
+        setPlaylists(data || []);
+      } catch (err) {
+        console.error("Playlist load failed", err);
+      }
+
       setLoading(false);
     }
 
@@ -33,25 +44,38 @@ function Home() {
   }, []);
 
   // ---------------------------------------------------------
-  // ⭐ Handle Filtering
+  // Handle Filtering
   // ---------------------------------------------------------
   const handleFilter = async ({ mood, pace }) => {
     setLoading(true);
 
-    const query = mood || pace ? `${mood} ${pace}` : "running music";
-    const results = await fetchPlaylists(query);
+    const accessToken = localStorage.getItem("spotify_access_token");
+    if (!accessToken) {
+      setLoading(false);
+      return;
+    }
 
-    setPlaylists(results);
+    try {
+      const data = await fetchSpotifyPlaylists(accessToken);
+      setPlaylists(data || []);
+    } catch (err) {
+      console.error("filter error:", err);
+    }
+
     setFiltered(true);
     setLoading(false);
   };
 
-  // ⭐ Handle selection
+  // ---------------------------------------------------------
+  //  Handle select
+  // ---------------------------------------------------------
   const handleSelect = (playlist) => {
     console.log("Selected playlist:", playlist);
   };
 
-  // ⭐ Save playlist locally
+  // ---------------------------------------------------------
+  // Save playlist locally
+  // ---------------------------------------------------------
   const handleSave = (playlist) => {
     const saved = JSON.parse(localStorage.getItem("savedPlaylists") || "[]");
     const updated = [...saved, playlist];
@@ -60,69 +84,43 @@ function Home() {
   };
 
   // ---------------------------------------------------------
-  // 🔥 Spotify Login (PKCE)
-  // ---------------------------------------------------------
-  async function loginWithSpotify() {
-    const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-    const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
-
-    const scopes = [
-      "user-read-private",
-      "user-read-email",
-      "playlist-read-private",
-      "playlist-modify-public",
-      "playlist-modify-private"
-    ].join(" ");
-
-    const codeVerifier = generateCodeVerifier();
-    const codeChallenge = await generateCodeChallenge(codeVerifier);
-
-    localStorage.setItem("code_verifier", codeVerifier);
-
-    const authUrl = new URL("https://accounts.spotify.com/authorize");
-    authUrl.searchParams.append("response_type", "code");
-    authUrl.searchParams.append("client_id", clientId);
-    authUrl.searchParams.append("scope", scopes);
-    authUrl.searchParams.append("redirect_uri", redirectUri);
-    authUrl.searchParams.append("code_challenge_method", "S256");
-    authUrl.searchParams.append("code_challenge", codeChallenge);
-
-    window.location.href = authUrl.toString();
-  }
-
-  // ---------------------------------------------------------
-  // 🔥 UI
+  // UI (BEM-structured)
   // ---------------------------------------------------------
   return (
-    <div className="home-container">
-      <header className="hero">
-        <h1>Fuel your stride with the perfect beat</h1>
+    <div className="home">
+      <header className="home__hero">
+        <h1 className="home__title">Fuel your stride with the perfect beat</h1>
 
-        {/* 🔥 Only show Spotify button if user is logged into YOUR app */}
         {!user ? (
-          <p style={{ marginTop: "20px", fontSize: "1.1rem" }}>
+          <p className="home__login-message">
             Please log in to your account to unlock Spotify playlist suggestions.
           </p>
         ) : (
-          <div className="hero-buttons">
-            <button className="btn" onClick={loginWithSpotify}>
+          <div className="home__hero-buttons">
+            <button className="home__btn" onClick={redirectToSpotifyLogin}>
               Connect Spotify
             </button>
-            <button className="btn btn-secondary" onClick={loginWithSpotify}>
+
+            <button
+              className="home__btn home__btn--secondary"
+              onClick={redirectToSpotifyLogin}
+            >
               Start Running with Music
             </button>
           </div>
         )}
       </header>
 
-      <section className="playlist-section">
+      <section className="home__playlist">
         <PlaylistFilter onFilter={handleFilter} />
 
         {loading ? (
-          <p>Loading playlists...</p>
+          <p className="home__loading">Loading playlists...</p>
         ) : (
           <>
-            {!filtered && <h2>Suggested Playlists</h2>}
+            {!filtered && (
+              <h2 className="home__section-title">Suggested Playlists</h2>
+            )}
 
             {playlists.length > 0 ? (
               <PlaylistResults
@@ -131,18 +129,21 @@ function Home() {
                 onSave={handleSave}
               />
             ) : (
-              <p>No playlists found. Try a different mood or pace.</p>
+              <p className="home__empty">
+                No playlists found. Try a different mood or pace.
+              </p>
             )}
           </>
         )}
       </section>
 
-      <section className="how-it-works">
-        <h2>HOW IT WORKS</h2>
-        <div className="steps">
-          <div className="step">1. Choose your pace and mood</div>
-          <div className="step">2. Get curated playlists from Spotify or YouTube</div>
-          <div className="step">3. Hit play and run with rhythm</div>
+      <section className="home__how">
+        <h2 className="home__how-title">HOW IT WORKS</h2>
+
+        <div className="home__steps">
+          <div className="home__step">1. Choose your pace and mood</div>
+          <div className="home__step">2. Get curated playlists from Spotify</div>
+          <div className="home__step">3. Hit play and run with rhythm</div>
         </div>
       </section>
     </div>

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import {getValidToken} from "../api/TokenManager";
 
 export default function SpotifyPlayer() {
   useEffect(() => {
@@ -8,7 +9,8 @@ export default function SpotifyPlayer() {
 
     
     window.onSpotifyWebPlaybackSDKReady = () => {
-      const token = localStorage.getItem("spotifyAccessToken");
+      const token = getValidToken()
+      console.log(token);
       if (!token || !window.Spotify) {
         console.error("Spotify SDK not ready or token missing");
         return;

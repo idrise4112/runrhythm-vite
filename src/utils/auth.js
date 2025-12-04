@@ -1,5 +1,5 @@
 const SERVER = import.meta.env.VITE_BACKEND_URL;
-// console.log("SERVER =", SERVER);
+
 
 export async function registerUser(email, password, name) {
   const res = await fetch(`${SERVER}/api/auth/register`, {

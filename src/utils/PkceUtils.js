@@ -1,4 +1,4 @@
-// pkceUtils.js
+
 function base64URLEncode(str) {
   return btoa(String.fromCharCode.apply(null, new Uint8Array(str)))
     .replace(/\+/g, "-")

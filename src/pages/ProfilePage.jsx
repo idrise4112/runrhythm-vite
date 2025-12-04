@@ -1,6 +1,9 @@
+// src/pages/ProfilePage.jsx
 import React, { useState, useEffect } from "react";
 import RunHistory from "../run/RunHistory";
 import "./ProfilePage.css";
+import { redirectToSpotifyLogin } from "../utils/SpotifyAuth";
+import SpotifyPlaylists from "../components/SpotifyPlaylist";
 
 export default function ProfilePage() {
   const [history, setHistory] = useState([]);
@@ -13,6 +16,7 @@ export default function ProfilePage() {
   const [editingProfile, setEditingProfile] = useState(false);
   const [newUsername, setNewUsername] = useState("");
   const [newAvatar, setNewAvatar] = useState("");
+  const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
 
   useEffect(() => {
     const savedHistory = JSON.parse(localStorage.getItem("runHistory")) || [];
@@ -22,6 +26,7 @@ export default function ProfilePage() {
       lastMood: "",
       lastSong: ""
     };
+
     setHistory(savedHistory);
     setProfile(savedProfile);
   }, []);
@@ -32,25 +37,15 @@ export default function ProfilePage() {
       setNewAvatar(profile.avatar);
     }
   }, [editingProfile, profile.username, profile.avatar]);
+
   useEffect(() => {
-  const loadProfile = () => {
-    const savedProfile = JSON.parse(localStorage.getItem("userProfile")) || {
-      username: "Runner",
-      avatar: "",
-      lastMood: "",
-      lastSong: ""
+    const loadSpotifyStatus = () => {
+      setIsSpotifyConnected(!!localStorage.getItem("spotify_access_token"));
     };
-    setProfile(savedProfile);
-  };
-
-  loadProfile();
-
-  window.addEventListener("focus", loadProfile); 
-
-  return () => {
-    window.removeEventListener("focus", loadProfile);
-  };
-}, []);
+    loadSpotifyStatus();
+    window.addEventListener("focus", loadSpotifyStatus);
+    return () => window.removeEventListener("focus", loadSpotifyStatus);
+  }, []);
 
   const handleClear = () => {
     localStorage.removeItem("runHistory");
@@ -69,53 +64,79 @@ export default function ProfilePage() {
     setEditingProfile(false);
   };
 
+  const handleDisconnectSpotify = () => {
+    localStorage.removeItem("spotify_access_token");
+    localStorage.removeItem("spotify_refresh_token");
+    localStorage.removeItem("spotify_token_expiry");
+    setIsSpotifyConnected(false);
+  };
+
   return (
-    <div className="ProfilePage-container">
-      <div className="profile-header">
+    <main className="profile">
+      <header className="profile__header">
         <img
           src={profile.avatar || "/default-avatar.png"}
-          alt="avatar"
-          className="avatar"
+          alt={`${profile.username} avatar`}
+          className="profile__avatar"
         />
-        <div className="profile-info">
+        <div className="profile__info">
           {editingProfile ? (
-            <form onSubmit={handleProfileSave} className="profile-edit-form">
-              <label>
+            <form onSubmit={handleProfileSave} className="profile__form">
+              <label className="profile__label">
                 Username:
                 <input
+                  className="profile__input"
                   type="text"
                   value={newUsername}
                   onChange={(e) => setNewUsername(e.target.value)}
                   required
+                  placeholder="Your display name"
                 />
               </label>
-              <label>
+              <label className="profile__label">
                 Avatar URL:
                 <input
+                  className="profile__input"
                   type="text"
                   value={newAvatar}
                   onChange={(e) => setNewAvatar(e.target.value)}
+                  placeholder="https://..."
                 />
               </label>
-              <button type="submit">Save Profile</button>
+              <button className="profile__btn" type="submit">Save Profile</button>
             </form>
           ) : (
             <>
-              <h1>{profile.username}</h1>
-              {profile.lastMood && (
-                <p><strong>Last Mood:</strong> {profile.lastMood}</p>
-              )}
-              {profile.lastSong && (
-                <p><strong>Last Song:</strong> {profile.lastSong}</p>
-              )}
-              <button onClick={() => setEditingProfile(true)}>Edit Profile</button>
+              <h1 className="profile__name">{profile.username}</h1>
+              {profile.lastMood && <p className="profile__mood"><strong>Last Mood:</strong> {profile.lastMood}</p>}
+              {profile.lastSong && <p className="profile__song"><strong>Last Song:</strong> {profile.lastSong}</p>}
+              <div className="profile__controls">
+                <button className="profile__btn" onClick={() => setEditingProfile(true)}>Edit Profile</button>
+                {isSpotifyConnected ? (
+                  <>
+                    <span className="profile__spotify-status">Spotify Connected ✓</span>
+                    <button className="profile__btn profile__btn--danger" onClick={handleDisconnectSpotify}>Disconnect Spotify</button>
+                  </>
+                ) : (
+                  <button className="profile__btn profile__btn--spotify" onClick={redirectToSpotifyLogin}>Connect Spotify</button>
+                )}
+              </div>
             </>
           )}
         </div>
-      </div>
+      </header>
 
-      <p>Here’s your recent run history based on mood and pace filters.</p>
-      <RunHistory history={history} onClear={handleClear} />
-    </div>
+      <section className="profile__runs">
+        <h2>Recent Run History</h2>
+        <p>Here’s your recent run history based on mood and pace filters.</p>
+        <RunHistory history={history} onClear={handleClear} />
+      </section>
+
+      {isSpotifyConnected && (
+        <aside className="profile__spotify">
+          <SpotifyPlaylists />
+        </aside>
+      )}
+    </main>
   );
 }

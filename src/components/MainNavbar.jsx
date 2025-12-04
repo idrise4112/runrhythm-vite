@@ -40,7 +40,9 @@ export default function MainNavbar() {
 
     const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
     const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
-    const scope = "user-read-private user-read-email streaming";
+    const scope = "user-read-private user-read-email streaming user-modify-playback-state user-read-playback-state user-read-email playlist-read-private playlist-read-collaborative"
+
+
 
     const authUrl = new URL("https://accounts.spotify.com/authorize");
     const params = {

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import PlaylistFilter from "../playlist/PlayListFilter";
 import PlayListResults from "./PlayListResults";
-import { fetchPlaylists } from "../api/Spotify";
+import { fetchSpotifyPlaylists } from "../api/api.js";
+import { getSpotifyToken } from "../utils/SpotifyAuth.jsx";
+
 
 export default function PlaylistViewer() {
   const [playlists, setPlaylists] = useState([]);
@@ -12,8 +14,9 @@ export default function PlaylistViewer() {
   const handleFilter = async ({ mood, pace }) => {
     setLoading(true);
     setMessage("");
+    const token = await getSpotifyToken()
     const query = mood || pace ? `${mood} ${pace}` : "running music";
-    const results = await fetchPlaylists(query);
+    const results = await fetchSpotifyPlaylists(token, mood, pace);
     setPlaylists(results);
     setSelectedPlaylist(null);
     setLoading(false);

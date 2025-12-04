@@ -15,14 +15,13 @@ export default function SignupForm() {
     setError("");
 
     try {
-      // First create user in backend
+      
       await registerUser(email, password, name);
 
-      // Then update frontend auth state via context
+      
       await signup(email, password, name);
 
-      // (Optional) redirect to login or dashboard
-      // navigate("/login");  // if you're using react-router
+     
     } catch (err) {
       setError(err.message);
     }

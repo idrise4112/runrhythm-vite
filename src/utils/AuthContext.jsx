@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { loginUser, logoutUser, getToken } from "./auth"; // registerUser is called from SignupForm
+import { loginUser, logoutUser, getToken } from "./auth"; 
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  // Safe user load from localStorage
+ 
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");
 
@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
 
   const [token, setToken] = useState(getToken());
 
-  // Sync user to localStorage safely
+  
   useEffect(() => {
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
     }
   }, [user]);
 
-  // ✅ Signup (Option A) — already handled by SignupForm
+  
   const signup = (userData, tokenData) => {
     setUser(userData);
     setToken(tokenData);
@@ -41,8 +41,9 @@ export function AuthProvider({ children }) {
     localStorage.setItem("token", tokenData);
   };
 
-  // Login
+  
   const login = async (email, password) => {
+    console.log("hello")
     try {
       const data = await loginUser(email, password);
       setUser(data.user);
@@ -54,17 +55,17 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Spotify login
+  
   const spotifyLogin = (spotifyToken, spotifyUser) => {
-    localStorage.setItem("spotifyAccessToken", spotifyToken);
+    localStorage.setItem("spotify_access_token", spotifyToken);
     setUser({ spotify: true, ...spotifyUser });
     setToken(spotifyToken);
   };
 
-  // Logout
+  
   const logout = () => {
     logoutUser();
-    localStorage.removeItem("spotifyAccessToken");
+    localStorage.removeItem("spotify_access_token");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
