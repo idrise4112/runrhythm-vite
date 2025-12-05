@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./MainNavbar.css";
-import logo from "../assets/logo192.png";
+import logo from "../../public/logo192.png";
 import { useAuth } from "../utils/AuthContext";
 
 export default function MainNavbar() {
