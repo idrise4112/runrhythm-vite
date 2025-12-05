@@ -3,9 +3,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  // base: "/runrhythm-vite/", 
-  server:{
-    port:3000,
-  }
-
+  base: "/runrhythm-vite/",   // 👈 matches your repo name
+  server: {
+    port: 3000,
+  },
 });
