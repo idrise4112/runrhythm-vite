@@ -102,5 +102,5 @@ Backend Repository
 
 🔗 https://github.com/idrise4112/runrhythm-backend
 
-🤝 Contributing
+
 
