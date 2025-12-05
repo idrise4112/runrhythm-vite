@@ -2,21 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="/runrhythm-vite/favicon.png" />
+
+    <!-- FIXED for GitHub Pages (removed leading /) -->
+    <link rel="icon" href="favicon.png" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="RunRhythm: Running + Music Discovery App" />
-    <!-- <link rel="apple-touch-icon" href="/logo192.png" /> move logo192.png into /public -->
-    <link rel="manifest" href="/runrhythm-vite/manifest.json" />
+
+    <!-- FIXED manifest.json path -->
+    <link rel="manifest" href="manifest.json" />
 
     <!-- Load Spotify SDK -->
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script>
-      // Define the global callback before the SDK fires
       window.onSpotifyWebPlaybackSDKReady = () => {
         console.log("Spotify Web Playback SDK is ready");
-        // You can initialize your player here or call into your React code
-        // Example: import('./src/spotifyPlayerInit.js').then(({ initPlayer }) => initPlayer());
       };
     </script>
 
@@ -24,9 +25,11 @@
     <script type="module" crossorigin src="/runrhythm-vite/assets/index-Dpl59FkQ.js"></script>
     <link rel="stylesheet" crossorigin href="/runrhythm-vite/assets/index-lXgS2Qbc.css">
   </head>
+
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-
+
+    <!-- FIXED main.jsx path -->
   </body>
 </html>
