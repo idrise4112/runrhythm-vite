@@ -3,6 +3,7 @@ import { generateCodeVerifier, generateCodeChallenge } from "./PkceUtils";
 
 export default function LoginForm({ setIsLoggedIn }) {
   async function loginWithSpotify() {
+    setIsLoggedIn(true);
     const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
     const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
     const scopes = [
@@ -10,7 +11,11 @@ export default function LoginForm({ setIsLoggedIn }) {
       "user-read-email",
       "playlist-read-private",
       "playlist-modify-public",
-      "playlist-modify-private"
+      "playlist-modify-private",
+      "user-read-playback-state",
+        "user-modify-playback-state",
+
+
     ].join(" ");
 
     const codeVerifier = generateCodeVerifier();
@@ -30,7 +35,7 @@ export default function LoginForm({ setIsLoggedIn }) {
   }
 
   return (
-    <div className="login-form">
+    <div className="login__form">
       <h2>Login to RunRhythm</h2>
       <button onClick={loginWithSpotify}>Login with Spotify</button>
     </div>

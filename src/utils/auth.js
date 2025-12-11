@@ -1,35 +1,30 @@
-const SERVER = import.meta.env.VITE_BACKEND_URL;
+import { request } from "../api/apiClient";
 
 
-export async function registerUser(email, password, name) {
-  const res = await fetch(`${SERVER}/api/auth/register`, {
+export function registerUser(email, password, name) {
+  return request("/api/auth/register", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password, name }),
   });
-
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Registration failed");
-  return data;
 }
 
-export async function loginUser(email, password) {
-  const res = await fetch(`${SERVER}/api/auth/login`, {
+
+export function loginUser(email, password) {
+  return request("/api/auth/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
+  }).then((data) => {
+    
+    localStorage.setItem("token", data.token);
+    return data;
   });
-
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Login failed");
-
-  localStorage.setItem("token", data.token);
-  return data;
 }
+
 
 export function getToken() {
   return localStorage.getItem("token");
 }
+
 
 export function logoutUser() {
   localStorage.removeItem("token");

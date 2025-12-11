@@ -1,4 +1,4 @@
-// src/components/SpotifyPlaylists.jsx
+
 import React, { useEffect, useState } from "react";
 import { getSpotifyToken } from "../utils/SpotifyAuth";
 import { fetchSpotifyPlaylists } from "../api/api";
@@ -39,21 +39,21 @@ export default function SpotifyPlaylists() {
   if (!playlists.length) return <p>No playlists found.</p>;
 
   return (
-    <section className="spotify-playlists">
+    <section className="spotify__playlists">
       <h2>Your Playlists</h2>
-      <ul className="spotify-playlists__list">
+      <ul className="spotify__playlists_list">
         {playlists.map(pl => (
-          <li key={pl.id} className="spotify-playlists__item">
+          <li key={pl.id} className="spotify__playlists_item">
             <img
               src={(pl.images && pl.images[0] && pl.images[0].url) || "/default-playlist.png"}
               alt={pl.name}
-              className="spotify-playlists__img"
+              className="spotify__playlists-img"
               width="120"
               height="120"
             />
-            <div className="spotify-playlists__meta">
-              <h3 className="spotify-playlists__title">{pl.name}</h3>
-              <p className="spotify-playlists__meta-info">{pl.tracks.total} tracks</p>
+            <div className="spotify__playlists_meta">
+              <h3 className="spotify__playlists_title">{pl.name}</h3>
+              <p className="spotify__playlists_meta-info">{pl.tracks.total} tracks</p>
             </div>
           </li>
         ))}

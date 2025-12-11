@@ -1,4 +1,4 @@
-// src/utils/SignupForm.jsx
+
 import React, { useState } from "react";
 import { registerUser } from "./auth";
 import { useAuth } from "./AuthContext";

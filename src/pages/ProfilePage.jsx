@@ -1,4 +1,4 @@
-// src/pages/ProfilePage.jsx
+
 import React, { useState, useEffect } from "react";
 import RunHistory from "../run/RunHistory";
 import "./ProfilePage.css";

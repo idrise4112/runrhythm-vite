@@ -11,9 +11,9 @@ export default function PlaylistFilter({ onFilter }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="filter-form">
-      <div className="filter-row">
-        <div className="filter-group">
+    <form onSubmit={handleSubmit} className="filter__form">
+      <div className="filter__row">
+        <div className="filter__group">
           <label htmlFor="mood">Mood:</label>
           <select
             id="mood"
@@ -26,7 +26,7 @@ export default function PlaylistFilter({ onFilter }) {
           </select>
         </div>
 
-        <div className="filter-group">
+        <div className="filter__group">
           <label htmlFor="pace">Pace:</label>
           <select
             id="pace"
@@ -40,7 +40,7 @@ export default function PlaylistFilter({ onFilter }) {
         </div>
       </div>
 
-      <button type="submit" className="filter-button">
+      <button type="submit" className="filter__button">
         Find Playlists
       </button>
     </form>

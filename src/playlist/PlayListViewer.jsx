@@ -48,7 +48,7 @@ export default function PlaylistViewer() {
   };
 
   return (
-    <div className="playlist-viewer">
+    <div className="playlist__viewer">
       <h2>Find Your Running Playlist</h2>
       <PlaylistFilter onFilter={handleFilter} />
       {loading ? (
@@ -75,7 +75,7 @@ export default function PlaylistViewer() {
       )}
 
       {selectedPlaylist && (
-        <div className="track-preview">
+        <div className="track__preview">
           <h3>Tracks in {selectedPlaylist.name}</h3>
           <ul>
             {selectedPlaylist.tracks.map((track) => (

@@ -15,11 +15,11 @@ function PlaylistResults({ playlists, onSelect, onSave }) {
   };
 
   return (
-    <div className="playlist-results">
+    <div className="playlist__results">
       {playlists
         .filter((playlist) => playlist && playlist.images)
         .map((playlist) => (
-          <div key={playlist.id} className="playlist-card">
+          <div key={playlist.id} className="playlist__card">
             <img
               src={playlist.images?.[0]?.url}
               alt={playlist.name}
@@ -27,7 +27,7 @@ function PlaylistResults({ playlists, onSelect, onSave }) {
             />
             <h3>{playlist.name}</h3>
             {playlist.description && <p>{playlist.description}</p>}
-            <div className="playlist-actions">
+            <div className="playlist__actions">
               <a
                 href={playlist.external_urls.spotify}
                 target="_blank"
@@ -39,7 +39,7 @@ function PlaylistResults({ playlists, onSelect, onSave }) {
               <button onClick={() => handleSave(playlist)}>❤️ Save</button>
             </div>
             {savedId === playlist.id && (
-              <p className="saved-message">✅ Saved to favorites!</p>
+              <p className="saved__message">✅ Saved to favorites!</p>
             )}
           </div>
         ))}

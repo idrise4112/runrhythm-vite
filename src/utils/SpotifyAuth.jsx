@@ -1,9 +1,12 @@
-// src/utils/spotifyAuth.jsx
+
 import React, { useEffect } from "react";
 import { exchangeCodeForToken, refreshSpotifyToken } from "../api/api";
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
+
+const redirectUri = import.meta.env.PROD
+  ? "https://runrhythm.mooo.com/callback"
+  :"http://127.0.0.1:3000/callback";
 
 /* -----------------------------------------------------------
    PKCE UTILITIES

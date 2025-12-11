@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
 import MainNavbar from "./components/MainNavbar";
 import Home from "./pages/Home";
 import ProfilePage from "./pages/ProfilePage";
@@ -12,51 +13,58 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { AuthProvider } from "./utils/AuthContext";
 import SpotifyPlayer from "./spotify/SpotifyPlayer";
+import Footer from "./footer/Footer";
 
 function App() {
   return (
-    <Router>
-      <ErrorBoundary>
-        <AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <div className="app">
           <MainNavbar />
           <SpotifyPlayer />
 
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+          <main className="app__content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
 
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <ProfilePage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/playlists"
-              element={
-                <ProtectedRoute>
-                  <PlaylistViewer />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/tracker"
-              element={
-                <ProtectedRoute>
-                  <RunTracker />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* ✅ SPOTIFY CALLBACK ROUTE (correct location) */}
-            <Route path="/callback" element={<SpotifyCallback />} />
-          </Routes>
-        </AuthProvider>
-      </ErrorBoundary>
-    </Router>
+              <Route
+                path="/playlists"
+                element={
+                  <ProtectedRoute>
+                    <PlaylistViewer />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/tracker"
+                element={
+                  <ProtectedRoute>
+                    <RunTracker />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Spotify OAuth callback */}
+              <Route path="/callback" element={<SpotifyCallback />} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

@@ -5,12 +5,11 @@ export function getStoredToken() {
   const expiry = parseInt(localStorage.getItem("spotify_token_expiry"), 10);
 
   if (!token || !expiry) return null;
-  if (Date.now() >= expiry) return null; // expired
+  if (Date.now() >= expiry) return null; 
 
   return token;
 }
 
-// Check if token exists + is not expired
 export function hasValidToken() {
   return !!getStoredToken();
 }

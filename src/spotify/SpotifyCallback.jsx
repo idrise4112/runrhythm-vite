@@ -22,7 +22,7 @@ export default function SpotifyCallback() {
       }
 
       try {
-        // ⭐ Exchange code → tokens
+        
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/auth/token`,
           {
@@ -34,20 +34,7 @@ export default function SpotifyCallback() {
             }),
           }
         );
-// const codeVerifier = localStorage.getItem("code_verifier");
 
-  // Exchange authorization code for tokens
-  // const response = await fetch("https://accounts.spotify.com/api/token", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  //   body: new URLSearchParams({
-  //     client_id: "382e67b8ff064d47927aa42f4a164781",
-  //     grant_type: "authorization_code",
-  //     code,
-  //     redirect_uri: "http://127.0.0.1:3000/callback",
-  //     code_verifier: codeVerifier,
-  //   }),
-  // });
         if (!response.ok) {
           console.error(" Token exchange failed:", response.status);
           return navigate("/");
@@ -61,21 +48,21 @@ export default function SpotifyCallback() {
           return navigate("/");
         }
 
-        //  Save tokens
+       
         localStorage.setItem("spotify_access_token", data.access_token);
 
         if (data.refresh_token) {
           localStorage.setItem("spotify_refresh_token", data.refresh_token);
         }
 
-        //  Save expiry (with 30s buffer)
+        
         const expiresAt = Date.now() + (data.expires_in - 30) * 1000;
         localStorage.setItem("spotify_token_expiry", expiresAt);
 
-        // Cleanup
+      
         localStorage.removeItem("code_verifier");
 
-        //  Redirect back home to load playlists
+        
         navigate("/");
       } catch (err) {
         console.error(" Error during Spotify auth:", err);

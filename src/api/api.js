@@ -1,8 +1,8 @@
-// src/api/api.js
+
 const BACKEND = import.meta.env.VITE_BACKEND_URL || "http://localhost:5001";
 const SPOTIFY_API_BASE = "https://api.spotify.com/v1";
 
-/* Helper for backend auth routes */
+
 export function loginUser(credentials) {
   return fetch(`${BACKEND}/api/auth/login`, {
     method: "POST",
@@ -29,9 +29,9 @@ export function registerUser(payload) {
     });
 }
 
-/* Spotify helper: fetch user's playlists using a valid token */
+
 export function fetchSpotifyPlaylists(accessToken, mood, pace) {
-  return fetch(`${SPOTIFY_API_BASE}/me/playlists`, {
+  return fetch(`${SPOTIFY_API_BASE}/users/31fzmb2ywdcajbwwfxxfsv77qij4/playlists`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   })
     .then(res => {
@@ -41,7 +41,7 @@ export function fetchSpotifyPlaylists(accessToken, mood, pace) {
      .then(json => {
       console.log("Spotify /me/playlists raw JSON:", json);
 
-      // IMPORTANT: Return only the playlist items
+     
       return json.items || [];
     })
     .catch(err => {
@@ -51,7 +51,7 @@ export function fetchSpotifyPlaylists(accessToken, mood, pace) {
 }
 
 
-/* Backend endpoints for PKCE token exchange/refresh */
+
 export function exchangeCodeForToken(code, code_verifier) {
   console.log(code);
   return fetch(`${BACKEND}/auth/token`, {

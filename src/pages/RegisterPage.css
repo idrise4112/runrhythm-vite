@@ -49,7 +49,6 @@
   outline-offset: 2px;
 }
 
-/* spotify button */
 .profile__btn--spotify {
   background: #1DB954;
   color: white;
@@ -67,15 +66,15 @@
   font-weight: 600;
 }
 
-/* playlists layout */
-.spotify-playlists__list {
+
+.spotify__playlists_list {
   list-style: none;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 }
-.spotify-playlists__item {
+.spotify__playlists_item {
   display: flex;
   gap: 0.75rem;
   align-items: center;

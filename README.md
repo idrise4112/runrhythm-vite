@@ -83,18 +83,22 @@ INVALID_CLIENT: you are not authorized to use this app
 
 🌱 Environment Variables
 Frontend (.env)
-VITE_BACKEND_URL=http://localhost:5001
-VITE_SPOTIFY_CLIENT_ID=your_client_id_here
-VITE_SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000/spotify/callback
+VITE_SPOTIFY_CLIENT_ID=382e67b8ff064d47927aa42f4a164781
+VITE_SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000/callback
+VITE_BACKEND_URL=https://api.runrhythm.mooo.com
+
 
 Backend (.env)
 SPOTIFY_CLIENT_ID=your_client_id_here
 SPOTIFY_CLIENT_SECRET=your_client_secret
-SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000/spotify/callback
 JWT_SECRET=your_secret
+SPOTIFY_CLIENT_ID=382e67b8ff064d47927aa42f4a164781
+SPOTIFY_CLIENT_SECRET=7dc3d098cfc94f80be30cfeb0216bcb4
+SPOTIFY_REDIRECT_URI=https://runrhythm.mooo.com
 
 🔗 Project Links
 Frontend Pull Request
+
 
 🔗 https://github.com/idrise4112/runrhythm-vite/pull/1
 
@@ -102,5 +106,8 @@ Backend Repository
 
 🔗 https://github.com/idrise4112/runrhythm-backend
 
+Website Page
+
+-https://runrhythm.mooo.com
 
 

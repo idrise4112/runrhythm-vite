@@ -35,7 +35,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="register-page">
+    <div className="register__page">
       <h2>Sign Up for RunRhythm</h2>
       <form onSubmit={handleSubmit}>
         <input

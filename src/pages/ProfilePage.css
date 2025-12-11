@@ -1,10 +1,10 @@
-.ProfilePage-container {
+.ProfilePage__container {
   max-width: 600px;
   margin: auto;
   padding: 1rem;
 }
 
-.profile-header {
+.profile__header {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -19,20 +19,20 @@
   border: 2px solid #ccc;
 }
 
-.avatar-form {
+.avatar__form {
   display: flex;
   gap: 0.5rem;
   margin-top: 0.5rem;
 }
 
 
-.profile-layout {
+.profile__layout {
   display: flex;
   gap: 2rem;
   align-items: flex-start;
 }
 
-.profile-sidebar {
+.profile__sidebar {
   width: 250px;
   flex-shrink: 0;
   display: flex;
@@ -40,7 +40,7 @@
   align-items: center;
 }
 
-.profile-main {
+.profile__main {
   flex-grow: 1;
 }
 
@@ -53,14 +53,14 @@
   margin-bottom: 1rem;
 }
 
-.profile-edit-form {
+.profile__edit-form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   width: 100%;
 }
 
-.profile-edit-form input {
+.profile__edit-form input {
   padding: 0.4rem;
   font-size: 1rem;
 }

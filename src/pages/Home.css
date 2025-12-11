@@ -120,7 +120,7 @@
 /* FILTER COMPONENT (child BEM left unchanged) */
 /* --------------------------------------------- */
 
-.filter-row {
+.filter__row {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
@@ -128,20 +128,20 @@
   margin-bottom: 2rem;
 }
 
-.filter-group {
+.filter__group {
   display: flex;
   flex-direction: column;
   flex: 1 1 200px;
   max-width: 300px;
 }
 
-.filter-group label {
+.filter__group label {
   margin-bottom: 0.5rem;
   font-weight: bold;
   color: white;
 }
 
-.filter-group select {
+.filter__group select {
   padding: 0.75rem;
   font-size: 1rem;
   border-radius: 6px;

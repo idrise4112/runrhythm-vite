@@ -44,7 +44,7 @@ export default function RunTracker() {
   };
 
   return (
-    <div className="tracker-container">
+    <div className="tracker__container">
       <h2>Track Your Run</h2>
       <form onSubmit={handleSubmit}>
         <label>

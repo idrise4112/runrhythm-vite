@@ -17,9 +17,7 @@ function Home() {
   const [filtered, setFiltered] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // ---------------------------------------------------------
-  // Load default playlists IF Spotify is connected
-  // ---------------------------------------------------------
+  
   useEffect(() => {
     async function loadDefaultPlaylists() {
       const accessToken = localStorage.getItem("spotify_access_token");
@@ -43,9 +41,7 @@ function Home() {
     loadDefaultPlaylists();
   }, []);
 
-  // ---------------------------------------------------------
-  // Handle Filtering
-  // ---------------------------------------------------------
+
   const handleFilter = async ({ mood, pace }) => {
     setLoading(true);
 
@@ -66,16 +62,12 @@ function Home() {
     setLoading(false);
   };
 
-  // ---------------------------------------------------------
-  //  Handle select
-  // ---------------------------------------------------------
+ 
   const handleSelect = (playlist) => {
     console.log("Selected playlist:", playlist);
   };
 
-  // ---------------------------------------------------------
-  // Save playlist locally
-  // ---------------------------------------------------------
+  
   const handleSave = (playlist) => {
     const saved = JSON.parse(localStorage.getItem("savedPlaylists") || "[]");
     const updated = [...saved, playlist];
@@ -83,9 +75,7 @@ function Home() {
     alert(`Saved "${playlist.name}" to your favorites!`);
   };
 
-  // ---------------------------------------------------------
-  // UI (BEM-structured)
-  // ---------------------------------------------------------
+
   return (
     <div className="home">
       <header className="home__hero">

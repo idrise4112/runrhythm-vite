@@ -1,4 +1,4 @@
-.run-history {
+.run__history {
   padding: 2rem;
   max-width: 600px;
   margin: auto;
@@ -29,7 +29,7 @@ button {
   cursor: pointer;
 }
 
-.run-entry {
+.run__entry {
   background: #111;
   color: white;
   padding: 1rem;
