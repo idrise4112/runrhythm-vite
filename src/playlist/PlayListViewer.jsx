@@ -3,6 +3,8 @@ import PlaylistFilter from "../playlist/PlayListFilter";
 import PlayListResults from "./PlayListResults";
 import { fetchSpotifyPlaylists } from "../api/api.js";
 import { getSpotifyToken } from "../utils/SpotifyAuth.jsx";
+import "../playlist/PlayListViewer.css";
+
 
 export default function PlaylistViewer() {
   const [playlists, setPlaylists] = useState([]);
@@ -31,7 +33,7 @@ export default function PlaylistViewer() {
     setLoading(false);
 
     if (filtered.length === 0) {
-      setMessage("No playlists found. Try adjusting your mood or pace.");
+      setMessage("");
     }
   };
 

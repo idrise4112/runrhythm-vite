@@ -36,7 +36,7 @@ export default function SpotifyPlaylists() {
 
   if (loading) return <p>Loading playlists…</p>;
   if (error) return <p className="error">{error}</p>;
-  if (!playlists.length) return <p>No playlists found.</p>;
+  if (!playlists.length) return <p></p>;
 
   return (
     <section className="spotify__playlists">

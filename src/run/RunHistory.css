@@ -1,7 +1,15 @@
-.run__history {
+.run-history {
   padding: 2rem;
-  max-width: 600px;
-  margin: auto;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+/* 🔹 GRID LAYOUT */
+.run-history__entries {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 form {
@@ -13,26 +21,55 @@ form {
 
 input,
 select,
-textarea,
-button {
+textarea {
   padding: 0.75rem;
   font-size: 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid #ccc;
 }
 
 button {
-  background-color: gray;
-  color: black;
+  background-color: #1db954;
+  color: white;
   font-weight: bold;
   border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 25px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
+button:hover {
+  background-color: #17a44a;
+}
+
+/* 🔹 RUN CARD */
 .run__entry {
-  background: #111;
+  background: #ffffff;
+  color: #333;
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.run__entry p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+}
+
+.run__entry button {
+  margin-top: 1rem;
+  background-color: #e74c3c;
   color: white;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
+  font-size: 0.85rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 20px;
+}
+
+.run__entry button:hover {
+  background-color: #c0392b;
 }

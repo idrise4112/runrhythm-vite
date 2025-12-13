@@ -5,9 +5,9 @@ import MainNavbar from "./components/MainNavbar";
 import Home from "./pages/Home";
 import ProfilePage from "./pages/ProfilePage";
 import PlaylistViewer from "./playlist/PlayListViewer";
-import RunTracker from "./run/RunTracker";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import RunHistory from "./run/RunHistory";
 import SpotifyCallback from "./spotify/SpotifyCallback";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -47,14 +47,14 @@ function App() {
                 }
               />
 
-              <Route
-                path="/tracker"
-                element={
-                  <ProtectedRoute>
-                    <RunTracker />
-                  </ProtectedRoute>
-                }
-              />
+             <Route
+  path="/tracker"
+  element={
+    <ProtectedRoute>
+      <RunHistory />
+    </ProtectedRoute>
+  }
+/>
 
               {/* Spotify OAuth callback */}
               <Route path="/callback" element={<SpotifyCallback />} />
