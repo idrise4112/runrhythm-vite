@@ -1,66 +1,176 @@
-.ProfilePage__container {
-  max-width: 600px;
-  margin: auto;
-  padding: 1rem;
+/* === Profile Layout === */
+.profile {
+  padding: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .profile__header {
   display: flex;
-  align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #ccc;
-}
-
-.avatar__form {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-
-.profile__layout {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-}
-
-.profile__sidebar {
-  width: 250px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
   align-items: center;
 }
 
-.profile__main {
-  flex-grow: 1;
-}
-
-.avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+.profile__avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
   object-fit: cover;
-  border: 2px solid #ccc;
-  margin-bottom: 1rem;
 }
 
-.profile__edit-form {
+.profile__info {
+  flex: 1;
+}
+
+.profile__name {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+
+.profile__runs,
+.profile__saved,
+.profile__spotify {
+  margin-bottom: 2rem;
+}
+
+
+.profile__saved {
+  margin-top: 3rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(to bottom, #f9f9f9, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.profile__saved h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+
+.saved__list {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.saved__card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.saved__card:hover {
+  transform: translateY(-5px);
+}
+
+.saved__card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.saved__card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #1db954;
+}
+
+.saved__card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background-color: #1db954;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+}
+
+.saved__card a:hover {
+  background-color: #17a44a;
+}
+
+
+.profile__form .profile__input,
+.profile__label input {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 8px;
   width: 100%;
 }
 
-.profile__edit-form input {
-  padding: 0.4rem;
-  font-size: 1rem;
+.profile__btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  margin-right: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.profile__btn:hover {
+  transform: scale(1.03);
+}
+
+.profile__btn:focus,
+.profile__input:focus {
+  outline: 3px solid rgba(29,185,84,0.25);
+  outline-offset: 2px;
+}
+
+.profile__btn--spotify {
+  background: #1DB954;
+  color: white;
+}
+
+.profile__btn--danger {
+  background: #ff6b6b;
+  color: white;
+}
+
+.profile__spotify-status {
+  display: inline-block;
+  margin-right: 8px;
+  color: #1db954;
+  font-weight: 600;
+}
+
+
+.spotify__playlists_list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.spotify__playlists_item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  background: #fff;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+
+@media (max-width: 768px) {
+  .saved__list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .saved__card {
+    width: 90%;
+  }
 }

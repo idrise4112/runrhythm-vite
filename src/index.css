@@ -35,4 +35,11 @@ body {
 
 .app__content {
   flex: 1;
+  padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .page-content, .playlist__viewer, .main {
+    padding: 1rem;
+  }
 }

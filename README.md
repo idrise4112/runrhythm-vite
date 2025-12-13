@@ -42,7 +42,6 @@ Displays last run, mood, and recommended playlists
 
 Personalized playlist suggestions
 
-Trainer/mentor view (optional)
 
 🖥️ Local Development Setup
 1. Clone the repositories

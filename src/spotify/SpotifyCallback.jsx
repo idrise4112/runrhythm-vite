@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { request } from "../api/apiClient"; // <-- import your helper
 
 export default function SpotifyCallback() {
   const navigate = useNavigate();
@@ -22,25 +23,15 @@ export default function SpotifyCallback() {
       }
 
       try {
-        
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/auth/token`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              code,
-              code_verifier: codeVerifier,
-            }),
-          }
-        );
+        // 🔄 Use request() instead of raw fetch
+        const data = await request("/auth/token", {
+          method: "POST",
+          body: JSON.stringify({
+            code,
+            code_verifier: codeVerifier,
+          }),
+        });
 
-        if (!response.ok) {
-          console.error(" Token exchange failed:", response.status);
-          return navigate("/");
-        }
-
-        const data = await response.json();
         console.log("Spotify token response →", data);
 
         if (!data.access_token) {
@@ -48,24 +39,20 @@ export default function SpotifyCallback() {
           return navigate("/");
         }
 
-       
         localStorage.setItem("spotify_access_token", data.access_token);
 
         if (data.refresh_token) {
           localStorage.setItem("spotify_refresh_token", data.refresh_token);
         }
 
-        
         const expiresAt = Date.now() + (data.expires_in - 30) * 1000;
         localStorage.setItem("spotify_token_expiry", expiresAt);
 
-      
         localStorage.removeItem("code_verifier");
 
-        
         navigate("/");
       } catch (err) {
-        console.error(" Error during Spotify auth:", err);
+        console.error(" Error during Spotify auth:", err.message);
         navigate("/");
       }
     }

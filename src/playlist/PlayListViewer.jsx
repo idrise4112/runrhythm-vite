@@ -4,7 +4,6 @@ import PlayListResults from "./PlayListResults";
 import { fetchSpotifyPlaylists } from "../api/api.js";
 import { getSpotifyToken } from "../utils/SpotifyAuth.jsx";
 
-
 export default function PlaylistViewer() {
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,13 +13,24 @@ export default function PlaylistViewer() {
   const handleFilter = async ({ mood, pace }) => {
     setLoading(true);
     setMessage("");
-    const token = await getSpotifyToken()
+    const token = await getSpotifyToken();
     const query = mood || pace ? `${mood} ${pace}` : "running music";
     const results = await fetchSpotifyPlaylists(token, mood, pace);
-    setPlaylists(results);
+
+    // ✅ Filter playlists by name match
+    const filtered = results.filter((playlist) => {
+      const name = playlist.name.toLowerCase();
+      return (
+        (mood && name.includes(mood.toLowerCase())) ||
+        (pace && name.includes(pace.toLowerCase()))
+      );
+    });
+
+    setPlaylists(filtered);
     setSelectedPlaylist(null);
     setLoading(false);
-    if (results.length === 0) {
+
+    if (filtered.length === 0) {
       setMessage("No playlists found. Try adjusting your mood or pace.");
     }
   };
@@ -65,12 +75,14 @@ export default function PlaylistViewer() {
       {!loading && playlists.length > 0 && (
         <div className="suggestions">
           <p>Want to try something different?</p>
-          <button onClick={() => handleSuggestionClick("chill", "slow")}>
-            Chill & Slow
-          </button>
-          <button onClick={() => handleSuggestionClick("hype", "fast")}>
-            Hype & Fast
-          </button>
+          <div className="suggestions__buttons">
+            <button onClick={() => handleSuggestionClick("chill", "slow")}>
+              Chill & Slow
+            </button>
+            <button onClick={() => handleSuggestionClick("hype", "fast")}>
+              Hype & Fast
+            </button>
+          </div>
         </div>
       )}
 

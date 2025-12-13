@@ -1,8 +1,20 @@
-import React, { useState } from "react";
-import "./PlayListResults.css"; 
+import React, { useState, useEffect } from "react";
+import "./PlayListResults.css";  
 
 function PlaylistResults({ playlists, onSelect, onSave }) {
   const [savedId, setSavedId] = useState(null);
+  const [savedPlaylists, setSavedPlaylists] = useState([]);
+
+ 
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem("savedPlaylists")) || [];
+    setSavedPlaylists(stored);
+  }, []);
+
+
+  useEffect(() => {
+    localStorage.setItem("savedPlaylists", JSON.stringify(savedPlaylists));
+  }, [savedPlaylists]);
 
   if (!Array.isArray(playlists) || playlists.length === 0) {
     return <p>No playlists to display.</p>;
@@ -10,8 +22,18 @@ function PlaylistResults({ playlists, onSelect, onSave }) {
 
   const handleSave = (playlist) => {
     onSave(playlist);
-    setSavedId(playlist.id);
-    setTimeout(() => setSavedId(null), 3000); 
+
+    if (savedPlaylists.find(p => p.id === playlist.id)) {
+      // unsave
+      setSavedPlaylists(savedPlaylists.filter(p => p.id !== playlist.id));
+      setSavedId(`unsaved-${playlist.id}`);
+    } else {
+      // save full playlist object
+      setSavedPlaylists([...savedPlaylists, playlist]);
+      setSavedId(`saved-${playlist.id}`);
+    }
+
+    setTimeout(() => setSavedId(null), 3000);
   };
 
   return (
@@ -35,11 +57,15 @@ function PlaylistResults({ playlists, onSelect, onSave }) {
               >
                 Open in Spotify
               </a>
-              <button onClick={() => onSelect(playlist)}>🎧 View Tracks</button>
-              <button onClick={() => handleSave(playlist)}>❤️ Save</button>
+              <button onClick={() => handleSave(playlist)}>
+                {savedPlaylists.find(p => p.id === playlist.id) ? "❤️" : "🤍"} Save
+              </button>
             </div>
-            {savedId === playlist.id && (
+            {savedId === `saved-${playlist.id}` && (
               <p className="saved__message">✅ Saved to favorites!</p>
+            )}
+            {savedId === `unsaved-${playlist.id}` && (
+              <p className="unsaved__message">❌ Removed from favorites</p>
             )}
           </div>
         ))}

@@ -2,8 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./MainNavbar.css";
 import { useAuth } from "../utils/AuthContext";
 
-
-import logo from "/logo192.png"
+import logo from "/logo192.png";
 
 export default function MainNavbar() {
   const navigate = useNavigate();
@@ -46,9 +45,8 @@ export default function MainNavbar() {
 
     const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
     const redirectUri = import.meta.env.PROD
-  ? "https://runrhythm.mooo.com/callback"
-  // : "http://localhost:5173/callback"; 
-  :"http://127.0.0.1:3000/callback";
+      ? "https://runrhythm.mooo.com/callback"
+      : "http://127.0.0.1:3000/callback";
 
     const scope =
       "user-read-private user-read-email streaming user-modify-playback-state user-read-playback-state playlist-read-private playlist-read-collaborative";
@@ -71,8 +69,10 @@ export default function MainNavbar() {
     <nav className="navbar">
       {/* LOGO */}
       <div className="navbar__logo">
-        <img src={logo} alt="RunRhythm Logo" className="navbar__logo-img" />
-        <span className="navbar__logo-text">RunRhythm</span>
+        <Link to="/" className="navbar__logo-link">
+          <img src={logo} alt="RunRhythm Logo" className="navbar__logo-img" />
+          <span className="navbar__logo-text">RunRhythm</span>
+        </Link>
       </div>
 
       {/* LINKS */}

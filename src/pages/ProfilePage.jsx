@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import RunHistory from "../run/RunHistory";
 import "./ProfilePage.css";
@@ -17,6 +16,7 @@ export default function ProfilePage() {
   const [newUsername, setNewUsername] = useState("");
   const [newAvatar, setNewAvatar] = useState("");
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
+  const [savedPlaylists, setSavedPlaylists] = useState([]); // <-- add state
 
   useEffect(() => {
     const savedHistory = JSON.parse(localStorage.getItem("runHistory")) || [];
@@ -26,9 +26,11 @@ export default function ProfilePage() {
       lastMood: "",
       lastSong: ""
     };
+    const storedPlaylists = JSON.parse(localStorage.getItem("savedPlaylists")) || []; // <-- load playlists
 
     setHistory(savedHistory);
     setProfile(savedProfile);
+    setSavedPlaylists(storedPlaylists); // <-- set state
   }, []);
 
   useEffect(() => {
@@ -130,6 +132,25 @@ export default function ProfilePage() {
         <h2>Recent Run History</h2>
         <p>Here’s your recent run history based on mood and pace filters.</p>
         <RunHistory history={history} onClear={handleClear} />
+      </section>
+
+      <section className="profile__saved">
+        <h2>Saved Playlists</h2>
+        {savedPlaylists.length === 0 ? (
+          <p>No playlists saved yet.</p>
+        ) : (
+          <div className="saved__list">
+            {savedPlaylists.map((pl) => (
+              <div key={pl.id} className="saved__card">
+                <img src={pl.images?.[0]?.url} alt={pl.name} width="100" />
+                <h3>{pl.name}</h3>
+                <a href={pl.external_urls.spotify} target="_blank" rel="noreferrer">
+                  Open in Spotify
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {isSpotifyConnected && (
