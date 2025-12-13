@@ -75,63 +75,35 @@ export default function MainNavbar() {
         </Link>
       </div>
 
-      {/* LINKS */}
-      <ul className="navbar__links">
-        <li>
-          <Link className="navbar__link" to="/">
-            Home
-          </Link>
-        </li>
+      {/* LINKS + BUTTONS */}
+      <div className="navbar__menu">
+        <Link className="navbar__link" to="/">Home</Link>
 
         {user ? (
           <>
-            <li>
-              <Link className="navbar__link" to="/playlists">
-                Playlists
-              </Link>
-            </li>
-            <li>
-              <Link className="navbar__link" to="/tracker">
-                Tracker
-              </Link>
-            </li>
-            <li>
-              <Link className="navbar__link" to="/profile">
-                Profile
-              </Link>
-            </li>
-            <li>
-              <button
-                onClick={handleLogout}
-                className="navbar__logout-btn"
-              >
-                Log Out
-              </button>
-            </li>
+            <Link className="navbar__link" to="/playlists">Playlists</Link>
+            <Link className="navbar__link" to="/tracker">Tracker</Link>
+            <Link className="navbar__link" to="/profile">Profile</Link>
+            <button
+              onClick={handleLogout}
+              className="navbar__logout-btn"
+            >
+              Log Out
+            </button>
           </>
         ) : (
           <>
-            <li>
-              <Link className="navbar__link" to="/login">
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link className="navbar__link" to="/register">
-                Sign Up
-              </Link>
-            </li>
-            <li>
-              <button
-                onClick={handleSpotifyLogin}
-                className="navbar__spotify-btn"
-              >
-                Connect to Spotify
-              </button>
-            </li>
+            <Link className="navbar__link" to="/login">Login</Link>
+            <Link className="navbar__link" to="/register">Sign Up</Link>
+            <button
+              onClick={handleSpotifyLogin}
+              className="navbar__spotify-btn"
+            >
+              Connect to Spotify
+            </button>
           </>
         )}
-      </ul>
+      </div>
     </nav>
   );
 }
