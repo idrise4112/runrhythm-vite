@@ -4,7 +4,7 @@
   margin: 2rem auto;
 }
 
-/* 🔹 GRID LAYOUT */
+
 .run-history__entries {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
