@@ -95,6 +95,13 @@ SPOTIFY_CLIENT_ID=382e67b8ff064d47927aa42f4a164781
 SPOTIFY_CLIENT_SECRET=7dc3d098cfc94f80be30cfeb0216bcb4
 SPOTIFY_REDIRECT_URI=https://runrhythm.mooo.com
 
+## Project Pitch Video
+ 
+ Check out [this video](https://www.loom.com/share/7b77e420684c41cb96c04e657eae6527), where I describe my 
+ project and some challenges I faced while building it.
+
+
+
 🔗 Project Links
 Frontend Pull Request
 
