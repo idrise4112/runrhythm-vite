@@ -1,0 +1,78 @@
+
+.playlist__results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+  gap: 1.5rem;
+  padding: 1rem 0;
+  justify-content: center; 
+}
+
+.playlist__card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 280px; 
+  margin: 0 auto;    
+}
+
+.playlist__card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+.playlist__card img {
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  width: 100%;
+  object-fit: cover;
+}
+
+.playlist__card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.playlist__card p {
+  margin: 0.5rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+
+.playlist__actions {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.playlist__actions button,
+.playlist__actions a {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.playlist__actions button:hover,
+.playlist__actions a:hover {
+  background-color: #0056b3;
+}
+
+
+.saved__message {
+  margin-top: 0.5rem;
+  color: green;
+  font-weight: bold;
+  font-size: 0.9rem;
+}

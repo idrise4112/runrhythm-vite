@@ -1,0 +1,134 @@
+
+.home {
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+  background-image: url("/runningtrail.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+
+.home__hero {
+  flex: 1;
+  text-align: center;
+  padding: 2rem;
+  max-width: 800px;
+}
+
+.home__title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.home__hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Buttons */
+.home__btn {
+  background-color: #1db954;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.home__btn--secondary {
+  background-color: #333;
+}
+
+.home__login-message {
+  margin-top: 20px;
+  font-size: 1.1rem;
+}
+
+
+.home__playlist {
+  width: 100%;
+  max-width: 900px;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.home__loading {
+  font-size: 1.2rem;
+}
+
+.home__empty {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.home__section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+
+.home__how {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  margin-top: 3rem;
+  border-radius: 10px;
+}
+
+.home__how-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.home__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.home__step {
+  font-size: 1.1rem;
+}
+
+
+.filter__row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.filter__group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 200px;
+  max-width: 300px;
+}
+
+.filter__group label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.filter__group select {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}

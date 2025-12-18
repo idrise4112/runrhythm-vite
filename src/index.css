@@ -1,0 +1,45 @@
+* {
+  font-family: inherit;
+}
+
+body {
+  margin: 0;
+  font-family: "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 16px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+body {
+  background-color: #f0f4f8; 
+  margin: 0;
+  font-family: "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+}
+
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app__content {
+  flex: 1;
+  /* padding: 1rem; */
+}
+
+@media (max-width: 768px) {
+  .page-content, .playlist__viewer, .main {
+    padding: 1rem;
+  }
+}

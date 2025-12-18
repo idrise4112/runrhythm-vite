@@ -1,16 +1,119 @@
-# React + Vite
+🏃🎧 RunRhythm
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+RunRhythm is a React-based running & music discovery app that helps users track runs, record mood, and find Spotify playlists matched to their pace and emotion.
+It integrates a custom Node/Express backend, user authentication, run tracking, and Spotify PKCE OAuth to power in-browser music playback.
 
-Currently, two official plugins are available:
+🚀 Features
+👤 User Accounts
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Register and log in with local authentication
 
-## React Compiler
+Secure password hashing & token storage
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Personalized dashboard
 
-## Expanding the ESLint configuration
+🏃 Run Tracking
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Log time, distance,  and mood
+
+Automatic pace calculation
+
+Run history saved to profile
+
+Track your mood patterns over time
+
+🎵 Spotify Integration
+
+Secure PKCE OAuth (no client secret on frontend)
+
+Connect Spotify account to enable:
+
+Playlist filtering by mood and pace
+
+Playlist previews
+
+Saved "favorite" playlists
+
+Web Playback SDK for real audio playback inside the browser
+
+📊 Dashboard
+
+Displays last run, mood, and recommended playlists
+
+Personalized playlist suggestions
+
+
+🖥️ Local Development Setup
+1. Clone the repositories
+git clone https://github.com/idrise4112/runrhythm-vite
+git clone https://github.com/idrise4112/runrhythm-backend
+
+📦 Frontend Setup (Vite + React)
+Install dependencies:
+cd runrhythm-vite
+npm install
+
+Important: You must run Vite with host enabled:
+npm run dev -- --host
+
+
+This exposes the dev server to Spotify OAuth redirects (Spotify refuses localhost IPs without host mode).
+
+🛠️ Backend Setup (Node + Express)
+cd runrhythm-backend
+npm install
+npm run dev
+
+🔐 Spotify Developer Access Required
+
+Because RunRhythm uses Spotify’s Web Playback SDK and private API scopes, your Spotify account must be added to the app's developer access list.
+
+Currently, the dashboard includes:
+
+Devin Jagurnauth (Tutor)
+
+If you would like access:
+
+➡️ You can provide your email.
+
+Without being added, Spotify will return:
+
+INVALID_CLIENT: you are not authorized to use this app
+
+🌱 Environment Variables
+Frontend (.env)
+VITE_SPOTIFY_CLIENT_ID=382e67b8ff064d47927aa42f4a164781
+VITE_SPOTIFY_REDIRECT_URI=http://127.0.0.1:3000/callback
+VITE_BACKEND_URL=https://api.runrhythm.mooo.com
+
+
+Backend (.env)
+SPOTIFY_CLIENT_ID=your_client_id_here
+SPOTIFY_CLIENT_SECRET=your_client_secret
+JWT_SECRET=your_secret
+SPOTIFY_CLIENT_ID=382e67b8ff064d47927aa42f4a164781
+SPOTIFY_CLIENT_SECRET=7dc3d098cfc94f80be30cfeb0216bcb4
+SPOTIFY_REDIRECT_URI=https://runrhythm.mooo.com
+
+## Project Pitch Video
+ 
+ Check out [this video](https://www.loom.com/share/7b77e420684c41cb96c04e657eae6527), where I describe my 
+ project and some challenges I faced while building it.
+
+
+
+🔗 Project Links
+Frontend Pull Request
+
+
+🔗 https://github.com/idrise4112/runrhythm-vite/pull/1
+
+Backend Repository
+
+🔗 https://github.com/idrise4112/runrhythm-backend
+
+Website Page
+
+-https://runrhythm.mooo.com
+
+

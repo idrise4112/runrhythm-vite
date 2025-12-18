@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <!-- Correct public asset path -->
+    <link rel="icon" href="/favicon.png" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="RunRhythm: Running + Music Discovery App" />
+
+    <!-- Correct manifest path -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Load Spotify SDK -->
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        console.log("Spotify Web Playback SDK is ready");
+      };
+    </script>
+
+    <title>RunRhythm</title>
+  </head>
+
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+    <!-- Correct path for Vite -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
