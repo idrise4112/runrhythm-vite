@@ -16,7 +16,7 @@ export default function ProfilePage() {
   const [newUsername, setNewUsername] = useState("");
   const [newAvatar, setNewAvatar] = useState("");
   const [isSpotifyConnected, setIsSpotifyConnected] = useState(false);
-  const [savedPlaylists, setSavedPlaylists] = useState([]); // <-- add state
+  const [savedPlaylists, setSavedPlaylists] = useState([]);
 
   useEffect(() => {
     const savedHistory = JSON.parse(localStorage.getItem("runHistory")) || [];
@@ -26,11 +26,12 @@ export default function ProfilePage() {
       lastMood: "",
       lastSong: ""
     };
-    const storedPlaylists = JSON.parse(localStorage.getItem("savedPlaylists")) || []; // <-- load playlists
+    const storedPlaylists =
+      JSON.parse(localStorage.getItem("savedPlaylists")) || [];
 
     setHistory(savedHistory);
     setProfile(savedProfile);
-    setSavedPlaylists(storedPlaylists); // <-- set state
+    setSavedPlaylists(storedPlaylists);
   }, []);
 
   useEffect(() => {
@@ -52,6 +53,18 @@ export default function ProfilePage() {
   const handleClear = () => {
     localStorage.removeItem("runHistory");
     setHistory([]);
+  };
+
+  // ✅ NEW: avatar file upload handler
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setNewAvatar(reader.result); // base64 image
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleProfileSave = (e) => {
@@ -95,32 +108,61 @@ export default function ProfilePage() {
                   placeholder="Your display name"
                 />
               </label>
+
+              {/* ✅ REPLACED: file upload instead of URL */}
               <label className="profile__label">
-                Avatar URL:
+                Avatar Image:
                 <input
                   className="profile__input"
-                  type="text"
-                  value={newAvatar}
-                  onChange={(e) => setNewAvatar(e.target.value)}
-                  placeholder="https://..."
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarUpload}
                 />
               </label>
-              <button className="profile__btn" type="submit">Save Profile</button>
+
+              <button className="profile__btn" type="submit">
+                Save Profile
+              </button>
             </form>
           ) : (
             <>
               <h1 className="profile__name">{profile.username}</h1>
-              {profile.lastMood && <p className="profile__mood"><strong>Last Mood:</strong> {profile.lastMood}</p>}
-              {profile.lastSong && <p className="profile__song"><strong>Last Song:</strong> {profile.lastSong}</p>}
+              {profile.lastMood && (
+                <p className="profile__mood">
+                  <strong>Last Mood:</strong> {profile.lastMood}
+                </p>
+              )}
+              {profile.lastSong && (
+                <p className="profile__song">
+                  <strong>Last Song:</strong> {profile.lastSong}
+                </p>
+              )}
               <div className="profile__controls">
-                <button className="profile__btn" onClick={() => setEditingProfile(true)}>Edit Profile</button>
+                <button
+                  className="profile__btn"
+                  onClick={() => setEditingProfile(true)}
+                >
+                  Edit Profile
+                </button>
                 {isSpotifyConnected ? (
                   <>
-                    <span className="profile__spotify-status">Spotify Connected ✓</span>
-                    <button className="profile__btn profile__btn--danger" onClick={handleDisconnectSpotify}>Disconnect Spotify</button>
+                    <span className="profile__spotify-status">
+                      Spotify Connected ✓
+                    </span>
+                    <button
+                      className="profile__btn profile__btn--danger"
+                      onClick={handleDisconnectSpotify}
+                    >
+                      Disconnect Spotify
+                    </button>
                   </>
                 ) : (
-                  <button className="profile__btn profile__btn--spotify" onClick={redirectToSpotifyLogin}>Connect Spotify</button>
+                  <button
+                    className="profile__btn profile__btn--spotify"
+                    onClick={redirectToSpotifyLogin}
+                  >
+                    Connect Spotify
+                  </button>
                 )}
               </div>
             </>
@@ -144,7 +186,11 @@ export default function ProfilePage() {
               <div key={pl.id} className="saved__card">
                 <img src={pl.images?.[0]?.url} alt={pl.name} width="100" />
                 <h3>{pl.name}</h3>
-                <a href={pl.external_urls.spotify} target="_blank" rel="noreferrer">
+                <a
+                  href={pl.external_urls.spotify}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Open in Spotify
                 </a>
               </div>

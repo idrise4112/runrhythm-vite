@@ -6,7 +6,7 @@ import { checkResponse } from "./apiClient";
 export function loginUser(credentials) {
   return fetch(`${BACKEND}/api/auth/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" }, 
     body: JSON.stringify(credentials),
   })
     .then(checkResponse)

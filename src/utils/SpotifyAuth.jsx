@@ -61,7 +61,7 @@ export async function redirectToSpotifyLogin() {
   authUrl.searchParams.append("scope", scopes);
   authUrl.searchParams.append("code_challenge_method", "S256");
   authUrl.searchParams.append("code_challenge", codeChallenge);
-
+authUrl.searchParams.append("show_dialog", "true");
   window.location.href = authUrl.toString();
 }
 
